@@ -14,8 +14,9 @@
     "hardhat": "^2.9.9"
   },
   "dependencies": {
-    "@alch/alchemy-web3": "^1.4.2",
-    "@openzeppelin/contracts": "^4.6.0",
+    "@alch/alchemy-web3": "^1.4.6",
+    "@nomiclabs/buidler": "^1.4.8",
+    "@openzeppelin/contracts": "^4.7.3",
     "dotenv": "^16.0.1"
   }
 }

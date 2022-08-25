@@ -10,7 +10,13 @@ const contract = require("../artifacts/contracts/PyConTwNFT.sol/PyConTwNFT.json"
 const contractAddress = "0x803770ABc665e18eeEb50E9DBe3D65138Bc6dd45";
 const nftContract = new web3.eth.Contract(contract.abi, contractAddress);
 
-async function mintNFT(tokenURI) {
+async function changeURIofNFT(tokenURI) {
+    let events = await nftContract.getPastEvents('NftEvent', {
+        fromBlock: 0,
+        toBlock: 'latest'
+    })
+    const pastTokenId = events[0].returnValues.tokenId;
+
     const nonce = await web3.eth.getTransactionCount(PUBLIC_KEY, "latest") //get latest nonce
   
     //the transaction
@@ -19,7 +25,7 @@ async function mintNFT(tokenURI) {
       to: contractAddress,
       nonce: nonce,
       gas: 500000,
-      data: nftContract.methods.mintNFT(PUBLIC_KEY, tokenURI).encodeABI(),
+      data: nftContract.methods.setTokenUri(pastTokenId, tokenURI).encodeABI(),
     }
   
     const signPromise = web3.eth.accounts.signTransaction(tx, PRIVATE_KEY)
@@ -46,6 +52,8 @@ async function mintNFT(tokenURI) {
       .catch((err) => {
         console.log(" Promise failed:", err)
       })
-  }
-  
-mintNFT("ipfs://QmNVJPswnRwHReptaBSrW81R43khRqDAdUMoZEtdnhM4mn")
+
+}
+
+
+changeURIofNFT("ipfs://QmeCnxbZK64ZYiF4RpvnFaZux9Z6bqh7CFT8juAT1dN9mg")
